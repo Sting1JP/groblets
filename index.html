@@ -1180,12 +1180,16 @@ function interact(points, label) {
     spawnMoreGrobs(); // ← or comment this out to delay spawning
 
     if (spawnThreshold < 100) {
-      spawnThreshold += 20;
-    } else if (spawnThreshold < 500) {
-      spawnThreshold = Math.ceil(spawnThreshold * 1.25);
-    } else {
-      spawnThreshold = Math.ceil(spawnThreshold * 1.1);
-    }
+  spawnThreshold += 20;
+} else if (spawnThreshold < 500) {
+  spawnThreshold += 50;
+} else if (spawnThreshold < 1000) {
+  spawnThreshold = Math.ceil(spawnThreshold / 100) * 100 + 100;
+} else if (spawnThreshold < 5000) {
+  spawnThreshold = Math.ceil(spawnThreshold / 250) * 250 + 250;
+} else {
+  spawnThreshold = Math.ceil(spawnThreshold * 1.1 / 1000) * 1000;
+}
   }
 
   Storage.set("groblets.spawnThreshold", spawnThreshold);
@@ -1611,7 +1615,13 @@ function updateFPS() {
 // ACTION HANDLING & USER INPUT
 // ————————————————————————————————————————
 function triggerNextThreshold() {
-  interact(spawnThreshold, "Debug Threshold Trigger");
+  // Set carePoints to just below the threshold
+  carePoints = spawnThreshold - 1;
+  Storage.set("groblets.carePoints", carePoints);
+  document.getElementById("carePoints").textContent = carePoints;
+
+  // Simulate a +1 interaction to push over the threshold
+  interact(1, "Debug Threshold Trigger");
 }
 
 
