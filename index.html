@@ -2446,15 +2446,15 @@ function stopRain() {
 // ————————————————————————————————————————
 function debugForceRainInOneMinute() {
   const now = Date.now();
-  const delay = 10000 + Math.random() * 50000; // 10–60 seconds
-  const duration = 1800000 + Math.random() * 1800000; // 30–60 minutes
+  const delay = 30000 + Math.random() * 50000;
+  const duration = 1800000 + Math.random(); // 30 minutes
 
   Storage.set("groblets.rain.nextStart", (now + delay).toString());
   Storage.set("groblets.rain.duration", duration.toString());
 
   console.log(`[Rain DEBUG] Forced rain to start in ${(delay / 1000).toFixed(1)} seconds for ${(duration / 60000).toFixed(1)} minutes`);
 }
-
+debugForceRainInOneMinute();
 maybeStartRain();
 
 </script>
